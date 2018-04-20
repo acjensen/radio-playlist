@@ -5,7 +5,6 @@
 #
 import time, sys
 from urllib.request import urlopen
-#url = "http://bbcmedia.ic.llnwd.net/stream/bbcmedia_radio1_mf_p"
 url = 'http://crystalout.surfernetwork.com:8001/WHPI-FM_MP3'
 print ("Connecting to "+url)
 response = urlopen(url, timeout=10.0)
@@ -28,7 +27,7 @@ while time.time() - start < limit:
 f.close()
 sys.stdout.flush()
 print("")
-print ("10 seconds from "+url+" have been recorded in "+fname)
+print("10 seconds from "+url+" have been recorded in "+fname)
 
 
 #
@@ -45,13 +44,18 @@ config = {
 }
 acrcloud = ACRCloudRecognizer(config)
 track_data = json.loads(acrcloud.recognize_by_file(fname, 0))
+# Cleanup .wav
+import os
+import glob
+for f in glob.glob('*.wav'): os.remove(f)
 try:
     track_title = track_data['metadata']['music'][0]['external_metadata']['spotify']['track']['name']
     track_id = track_data['metadata']['music'][0]['external_metadata']['spotify']['track']['id']
-    print('Title:', track_title)
-    print('Spotify ID:', track_id)
-except NoMetadata:
-    print('No metadata found for '+track_title)
+    print('Identified track as', '\"'+track_title+'\"', track_id)
+except:
+    print('Audio could not be identified')
+    sys.exit()
+
 
 #
 # Add the track to spotify playlist
@@ -74,7 +78,9 @@ token = util.prompt_for_user_token(username, scope, client_id, client_secret, re
 if token:
     sp = spotipy.Spotify(auth=token)
     sp.trace = False
-    results = sp.user_playlist_add_tracks(username, playlist_id, track_ids)
-    print(results)
+    sp.user_playlist_remove_all_occurrences_of_tracks(username, playlist_id, track_ids)
+    sp.user_playlist_add_tracks(username, playlist_id, track_ids)
+    print('\"'+track_title+'\"', '('+track_id+')', 'added to playlist '+playlist_id)
+
 else:
     print("Can't get token for", username)

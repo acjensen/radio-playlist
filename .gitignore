@@ -1,3 +1,6 @@
+# Audio samples
+*.wav
+
 # Spotify access token cache
 .cache*
 
