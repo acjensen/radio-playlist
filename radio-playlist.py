@@ -5,13 +5,13 @@
 #
 import time, sys
 from urllib.request import urlopen
-url = 'http://crystalout.surfernetwork.com:8001/WHPI-FM_MP3'
+url = 'http://18363.live.streamtheworld.com/WZSTFM.mp3?tdtok=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImtpZCI6ImZTeXA4In0.eyJpc3MiOiJ0aXNydiIsInN1YiI6IjIxMDY0IiwiaWF0IjoxNTM3MDM4NjY0LCJ0ZC1yZWciOmZhbHNlfQ.aB_AKuD_Vwmu_3t8poeAoWq9E2K_aJfVz8piMpKZeis'
 print ("Connecting to "+url)
 response = urlopen(url, timeout=10.0)
 fname = "Sample"+str(time.clock())[2:]+".wav"
 f = open(fname, 'wb')
 block_size = 1024
-print ("Recording roughly 10 seconds of audio Now - Please wait")
+print ("Recording roughly 10 seconds of audio now - Please wait")
 limit = 10
 start = time.time()
 while time.time() - start < limit:
