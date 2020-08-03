@@ -1,2 +1,2 @@
 # radio-playlist
-Recognizes songs from an internet radio stream and adds them to a Spotify playlist
+Create a Spotify playlist from a local radio station 
