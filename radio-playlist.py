@@ -1,10 +1,15 @@
-
-
-#
-# Get a short audio recording of live radio from a website
-#
 import time, sys
 from urllib.request import urlopen
+from acrcloud.recognizer import ACRCloudRecognizer
+import json
+import os
+import glob
+import pprint
+import sys
+import spotipy
+import spotipy.util as util
+
+# Get a short audio recording of live radio from a website.
 url = 'http://18363.live.streamtheworld.com/WZSTFM.mp3?tdtok=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImtpZCI6ImZTeXA4In0.eyJpc3MiOiJ0aXNydiIsInN1YiI6IjIxMDY0IiwiaWF0IjoxNTM3MDM4NjY0LCJ0ZC1yZWciOmZhbHNlfQ.aB_AKuD_Vwmu_3t8poeAoWq9E2K_aJfVz8piMpKZeis'
 print ("Connecting to "+url)
 response = urlopen(url, timeout=10.0)
@@ -30,11 +35,7 @@ print("")
 print("10 seconds from "+url+" have been recorded in "+fname)
 
 
-#
-# Identify the track and return spotify unique id
-#
-from acrcloud.recognizer import ACRCloudRecognizer
-import json
+# Identify the track and return it's unique Spotify id.
 config = {
     'host': 'identify-us-west-2.acrcloud.com',
     'access_key': '82640bba7076975b5fcaf79d00795d16',
@@ -45,8 +46,6 @@ config = {
 acrcloud = ACRCloudRecognizer(config)
 track_data = json.loads(acrcloud.recognize_by_file(fname, 0))
 # Cleanup .wav
-import os
-import glob
 for f in glob.glob('*.wav'): os.remove(f)
 try:
     track_title = track_data['metadata']['music'][0]['external_metadata']['spotify']['track']['name']
@@ -57,14 +56,7 @@ except:
     sys.exit()
 
 
-#
-# Add the track to spotify playlist
-#
-import pprint
-import sys
-import spotipy
-import spotipy.util as util
-
+# Add the track to a spotify playlist.
 username = 'ajpieface2'
 playlist_id = '0YNiCpiDoBymDKZSGSOaMa'
 client_id = '10432503769b49b99aecc7acf15c1821'
