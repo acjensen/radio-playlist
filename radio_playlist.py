@@ -10,6 +10,7 @@ import spotipy
 import spotipy.util as util
 from datetime import datetime, timezone
 from dataclasses import dataclass
+from secret import ARC, Spotify
 
 
 @dataclass
@@ -114,8 +115,8 @@ if __name__ == "__main__":
             recording_file_name,
             acr_cloud_recognizer_config={
                 "host": "identify-us-west-2.acrcloud.com",
-                "access_key": "82640bba7076975b5fcaf79d00795d16",
-                "access_secret": "JaLNPFDhjQbAuJyQKU8HfU6xZU2YzwzTFFiPH3Z7",
+                "access_key": ARC.access_key,
+                "access_secret": ARC.access_secret,
                 "debug": True,
                 "timeout": 10,
             },
@@ -127,8 +128,8 @@ if __name__ == "__main__":
                 track_title=response.track.title,
                 username="ajpieface2",
                 playlist_id="7AtOc3xyf6868NmRGgy6aP",
-                client_id="10432503769b49b99aecc7acf15c1821",
-                client_secret="a1c5ce5b2d80496f91ed6210182bbff2",
+                client_id=Spotify.client_id,
+                client_secret=Spotify.client_secret,
             )
 
         time.sleep(60)  # assume most tracks are at least 1 minute long
